@@ -1,4 +1,5 @@
 import { createElement, ReactNode } from 'react'
+import 'katex/dist/katex.min.css'
 import unified from 'unified'
 import markdown from 'remark-parse'
 import gfm from 'remark-gfm'
@@ -9,13 +10,11 @@ import gemoji from 'remark-gemoji'
 import remark2rehype from 'remark-rehype'
 import katex from 'rehype-katex'
 import rehype2react from 'rehype-react'
+import raw from 'rehype-raw'
 
-export class Markdown {
-    public static instance: Markdown
+//yarn add rehype-katex rehype-react remark remark-breaks remark-footnotes remark-gfm remark-math remark-rehype katex unified rehype-raw
 
-    private constructor() {
-        Markdown.instance = this
-    }
+export class Markdownizer {
 
     public static get processor() {
         return unified()
@@ -25,16 +24,13 @@ export class Markdown {
             .use(breaks)
             .use(footnotes, { inlineNotes: true })
             .use(gemoji)
-            .use(remark2rehype)
+            .use(remark2rehype, { allowDangerousHtml: true })
+            .use(raw)
             .use(katex)
             .use(rehype2react, { createElement: createElement })
     }
 
     public static reactify = (markdownString: string): ReactNode => {
-        return Markdown.processor.processSync(markdownString).result as React.ReactNode
-    }
-
-    public static getInstance(): Markdown {
-        return Markdown.instance ? Markdown.instance : new Markdown()
+        return Markdownizer.processor.processSync(markdownString).result as React.ReactNode
     }
 }

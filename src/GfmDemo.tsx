@@ -1,7 +1,6 @@
 import React from 'react'
 import 'github-markdown-css'
-import 'katex/dist/katex.css'
-import { Markdown } from './Markdown'
+import { Markdownizer } from './Markdown'
 
 const text =
   `# GFM with latex
@@ -66,7 +65,7 @@ and contact@example.com.
 const GfmDemo: React.FC = () => {
   return (
     <div className="markdown-body">
-      {Markdown.reactify(text)}
+      {Markdownizer.reactify(text)}
     </div>
   )
 }

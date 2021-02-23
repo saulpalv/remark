@@ -1,5 +1,5 @@
 import React from 'react'
-import GfmDemo from './markdown/GfmDemo'
+import GfmDemo from './GfmDemo'
 
 const App: React.FC = () => {
   return (
